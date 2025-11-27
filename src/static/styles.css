@@ -74,6 +74,112 @@ section h3 {
   margin-bottom: 8px;
 }
 
+/* Replace generic list rules with scoped, styled participant list rules */
+.activity-card p strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  color: #223;
+}
+
+/* Scoped participants list inside activity cards */
+.activity-card ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 140px; /* keep card compact */
+  overflow-y: auto;
+  padding-right: 6px; /* room for custom scrollbar */
+}
+
+/* participant item as a subtle pill with an avatar dot */
+.activity-card ul li {
+  position: relative;
+  padding: 8px 46px 8px 46px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffffff 0%, #f6f8ff 100%);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 1px 2px rgba(16,24,40,0.04);
+  color: #263238;
+  font-size: 0.92rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* delete button for participants */
+.activity-card ul li .delete-participant {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 6px;
+  color: #c62828;
+}
+.activity-card ul li .delete-participant:hover {
+  background: rgba(198,40,40,0.08);
+  border-radius: 6px;
+}
+
+/* decorative circular dot on the left */
+.activity-card ul li::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6c8ef5 0%, #9bb4ff 100%);
+  box-shadow: 0 1px 3px rgba(60,64,91,0.12);
+}
+
+/* smaller, muted email text when space is tight */
+.activity-card ul li small {
+  display: block;
+  color: #6b7280;
+  font-size: 0.83rem;
+  margin-top: 4px;
+}
+
+/* nice thin custom scrollbar for participants lists */
+.activity-card ul::-webkit-scrollbar {
+  width: 8px;
+}
+.activity-card ul::-webkit-scrollbar-track {
+  background: transparent;
+}
+.activity-card ul::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(34,58,255,0.15), rgba(34,58,255,0.08));
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* accessible focus outline when keyboard navigating */
+.activity-card ul li:focus {
+  outline: 3px solid rgba(34,58,255,0.14);
+  outline-offset: 2px;
+}
+
+/* small screens: reduce spacing slightly */
+@media (max-width: 480px) {
+  .activity-card ul li {
+    padding-left: 42px;
+    font-size: 0.9rem;
+  }
+}
+
 .form-group {
   margin-bottom: 15px;
 }

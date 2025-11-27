@@ -21,11 +21,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const spotsLeft = details.max_participants - details.participants.length;
 
         activityCard.innerHTML = `
-          <h4>${name}</h4>
-          <p>${details.description}</p>
-          <p><strong>Schedule:</strong> ${details.schedule}</p>
-          <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
-        `;
+            <h4>${name}</h4>
+            <p>${details.description}</p>
+            <p><strong>Schedule:</strong> ${details.schedule}</p>
+            <p><strong>Availability:</strong> <span class="availability-count">${spotsLeft}</span> spots left</p>
+            <p><strong>Participants:</strong></p>
+            <ul>
+              ${details.participants.map(participant => `<li><span class="participant-email">${participant}</span><button class="delete-participant" data-activity="${name}" data-email="${participant}" aria-label="Remove ${participant}">🗑️</button></li>`).join('')}
+            </ul>
+          `;
 
         activitiesList.appendChild(activityCard);
 
@@ -83,4 +87,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize app
   fetchActivities();
+
+  // Event delegation for delete participant buttons
+  activitiesList.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.delete-participant');
+    if (!btn) return;
+
+    const activity = btn.dataset.activity;
+    const email = btn.dataset.email;
+
+    if (!activity || !email) return;
+
+    if (!confirm(`Remove ${email} from ${activity}?`)) return;
+
+    try {
+      const res = await fetch(`/activities/${encodeURIComponent(activity)}/participants/${encodeURIComponent(email)}`, {
+        method: 'DELETE'
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        alert(err.detail || 'Failed to remove participant');
+        return;
+      }
+
+      // Remove the participant element from DOM
+      const li = btn.closest('li');
+      if (li) li.remove();
+
+      // Update availability count for this activity
+      const card = btn.closest('.activity-card');
+      if (card) {
+        const countEl = card.querySelector('.availability-count');
+        if (countEl) {
+          const current = parseInt(countEl.textContent, 10);
+          if (!Number.isNaN(current)) countEl.textContent = String(current + 1);
+        }
+      }
+    } catch (err) {
+      console.error('Error removing participant:', err);
+      alert('Error removing participant. See console for details.');
+    }
+  });
 });
