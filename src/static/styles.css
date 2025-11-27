@@ -98,7 +98,7 @@ section h3 {
 /* participant item as a subtle pill with an avatar dot */
 .activity-card ul li {
   position: relative;
-  padding: 8px 12px 8px 46px;
+  padding: 8px 46px 8px 46px;
   border-radius: 10px;
   background: linear-gradient(180deg, #ffffff 0%, #f6f8ff 100%);
   border: 1px solid rgba(15, 23, 42, 0.06);
@@ -109,6 +109,25 @@ section h3 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* delete button for participants */
+.activity-card ul li .delete-participant {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 6px;
+  color: #c62828;
+}
+.activity-card ul li .delete-participant:hover {
+  background: rgba(198,40,40,0.08);
+  border-radius: 6px;
 }
 
 /* decorative circular dot on the left */
